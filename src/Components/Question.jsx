@@ -13,8 +13,13 @@ export default function Question({ quest, answers, id }) {
                 <h2>{quest}</h2>
             </span>
             <div className="answer">
-                {answers.map((answer, ansIndex) => (
-                    <button key={ansIndex} onClick={() => chooseAnswer(id)}>{answer}</button>
+                {answers.map((answerOption, ansIndex) => (
+                    <li id="answers" key={ansIndex}>
+                        <button
+                            onClick={() => chooseAnswer(id, answerOption)}>
+                            {answerOption}
+                        </button>
+                    </li>
                 ))}
             </div>
 
