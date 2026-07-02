@@ -1,21 +1,39 @@
-import Header from "./Header.jsx";
-import Question from "./Question.jsx";
+import { useState } from "react";
+import Header from "./Components/Header.jsx";
+import Question from "./Components/Question.jsx";
+import { QuizContext } from "./QuizContext.jsx";
+import questions from "./questions.js";
 
 function App() {
-    const group1 = [
-        'Using an if-else statement.',
-        'Using the && operator.',
-        'Using a ternary operator.',
-        'Using the #if template syntax.'
-    ];
+      
+    const [answer, setAnswer ] = useState({answers:[]});
 
-    return (<>
+    function handleAnswer(id){
+        setAnswer((prevFinalAnswer) => 
+        { 
+            const updatedAnswers = [...prevFinalAnswer.answers];
+            const existingAnswerIndex = updatedAnswers.findIndex((choice) => choice.id === id);
+            const existingAnswer = updatedAnswers[existingAnswerIndex];
+        })
+        console.log(answer)
+    }
+
+    const CtxValue ={
+        chooseAnswer: handleAnswer,
+    }
+
+    return (
+    <QuizContext value={CtxValue}>
         <Header />
         <Question
-            quest="Which approach can NOT be used to render content conditionally?"
-            answers={group1}
+            quest={questions[0].text}
+            answers={questions[0].answers}
         />
-    </>
+           <Question
+            quest={questions[1].text}
+            answers={questions[1].answers}
+        />
+    </QuizContext>
     )
 }
 
