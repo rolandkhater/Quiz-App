@@ -5,9 +5,9 @@ import { QuizContext } from "./QuizContext.jsx";
 import questions from "./questions.js";
 
 function App() {
-    const questNumber = 0;
+    // const questNumber = 0;
     const [answer, setAnswer] = useState([]);
-    const [question, setQuestion] = useState(0);
+    // const [question, setQuestion] = useState(0);
 
     function handleAnswer(questionId, ans) {
         setAnswer((prevAnswers) => {
@@ -35,16 +35,32 @@ function App() {
     const CtxValue = {
         chooseAnswer: handleAnswer,
     }
+const targetId = 'q1';
 
+useEffect(() =>{
+   const splittedTarget = targetId.split('');
+  const x= Number(splittedTarget[1]) +1
+   const finalTarget = targetId[0] + x;
+    console.log(finalTarget)
+}, [answer])
     return (
         <QuizContext value={CtxValue}>
             <Header />
-            {question === 0 && <Question
-                id={questions[0].id}
-                quest={questions[0].text}
-                answers={questions[0].answers}
-            />}
-            {question === 1 && <Question
+            
+        {questions.map((question) => {
+            if(question.id !== targetId) return null;
+            return(
+            (<Question key={ question.id }  id={question.id}
+                quest={question.text}
+                answers={question.answers} />));
+                })}
+
+            {/* <Question
+                id={questions.id}
+                quest={questions.text}
+                answers={questions.answers}
+            /> */}
+            {/* {question === 1 && <Question
                 id={questions[1].id}
                 quest={questions[1].text}
                 answers={questions[1].answers}
@@ -58,7 +74,7 @@ function App() {
                 id={questions[3].id}
                 quest={questions[3].text}
                 answers={questions[3].answers}
-            />}
+            />} */}
         </QuizContext>
     )
 }
