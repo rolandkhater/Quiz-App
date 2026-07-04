@@ -4,7 +4,7 @@ import { QuizContext } from "../QuizContext.jsx";
 
 export default function Question({ quest, answers, id }) {
 
-    const { chooseAnswer } = use(QuizContext);
+    const { chooseAnswer, nextQuest } = use(QuizContext);
 
     return (
         <div id="quiz">
