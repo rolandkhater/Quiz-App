@@ -12,7 +12,17 @@ export default function Quiz() {
 
     const activeAnswerIndex = answer.length;
 
+    useEffect(() => {
+        const Timer = setTimeout(() => {
+            setAnswer((prevAnswers) => {
+                return [...prevAnswers, ""]
+            }, 3000)
+        })
+        clearTimeout(Timer)
+    }, [answer])
+
     function handleAnswer(selectedAnswer) {
+
         setAnswer((prevAnswers) => {
             return [...prevAnswers, selectedAnswer];
         });
@@ -25,6 +35,7 @@ export default function Quiz() {
 
     const finished = activeAnswerIndex === questions.length;
     console.log(finished)
+
 
     if (finished) {
         return (<Results />)
