@@ -1,28 +1,26 @@
-import { use } from "react";
+import { use, useEffect } from "react";
 import ProgressBar from "./ProgressBar.jsx";
-import { QuizContext } from "../QuizContext.jsx";
 
-export default function Question({ quest, answers, id }) {
-
-    const { chooseAnswer, nextQuest } = use(QuizContext);
+export default function Question({ quest, answers, id, chooseAnswer }) {
 
     return (
         <div id="quiz">
+        <div id="question">
             <ProgressBar />
-            <span id="question">
                 <h2>{quest}</h2>
-            </span>
-            <div className="answer">
-                {answers.map((answerOption, ansIndex) => (
-                    <li id="answers" key={ansIndex}>
+            
+            <ul id="answers">
+                {answers.map((answerOption) => (
+                    <li className="answer" key={answerOption}>
                         <button
-                            onClick={() => chooseAnswer(id, answerOption)}>
+                            onClick={() => chooseAnswer(answerOption)}>
                             {answerOption}
                         </button>
                     </li>
                 ))}
-            </div>
+            </ul>
 
+        </div>
         </div>
     )
 }
