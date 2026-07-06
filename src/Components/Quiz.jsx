@@ -1,5 +1,5 @@
 import questions from "../questions.js"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Question from "../Components/Question.jsx";
 import { use } from "react";
 import { QuizContext } from "../QuizContext.jsx";
@@ -12,21 +12,16 @@ export default function Quiz() {
 
     const activeAnswerIndex = answer.length;
 
-    useEffect(() => {
-        const Timer = setTimeout(() => {
-            setAnswer((prevAnswers) => {
-                return [...prevAnswers, ""]
-            }, 3000)
-        })
-        clearTimeout(Timer)
-    }, [answer])
 
-    function handleAnswer(selectedAnswer) {
+
+    const handleAnswer = useCallback(() => function handleAnswer(selectedAnswer) {
 
         setAnswer((prevAnswers) => {
-            return [...prevAnswers, selectedAnswer];
+            return [...prevAnswers, selectedAnswer ];
         });
-    };
+    }, []);
+
+    const handleSkipAnswer = useCallback(() => handleAnswer(null), [handleAnswer]);
 
     useEffect(() => {
         console.log("Current state of answers:", answer);
@@ -34,8 +29,6 @@ export default function Quiz() {
     }, [answer]);
 
     const finished = activeAnswerIndex === questions.length;
-    console.log(finished)
-
 
     if (finished) {
         return (<Results />)
@@ -50,10 +43,11 @@ export default function Quiz() {
                 {questions.map((question) => {
                     if (question.id !== questions[activeAnswerIndex].id) { return (null) };
                     return (
-                        <Question key={question.id} id={question.id}
+                        <Question key={question.id}
                             quest={question.text}
                             answers={shuffledAnswers}
-                            chooseAnswer={handleAnswer}
+                            chooseAnswer={handleAnswer()}
+                            onSkip = {handleSkipAnswer()}
                         />
 
 
