@@ -1,25 +1,33 @@
 import questions from "../questions.js"
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, use } from "react";
 import Question from "../Components/Question.jsx";
-import { use } from "react";
 import { QuizContext } from "../QuizContext.jsx";
 import Results from "./Results.jsx";
+import ProgressBar from "./ProgressBar.jsx";
 
 export default function Quiz() {
 
+    const [ answer, setAnswer] = useState([]);
+    const [ answerState, setAnswerState ] = useState("");
 
-    const [answer, setAnswer] = useState([]);
-
-    const activeAnswerIndex = answer.length;
-
-
+    const activeAnswerIndex = answerState === '' ? answer.length : answer.length -1;
 
     const handleAnswer = useCallback(() => function handleAnswer(selectedAnswer) {
-
-        setAnswer((prevAnswers) => {
+        setAnswerState('answered')
+      setAnswer((prevAnswers) => {
             return [...prevAnswers, selectedAnswer ];
-        });
-    }, []);
+        })
+       setTimeout(() => {
+                if(selectedAnswer === questions[activeAnswerIndex].answers[0]){
+               setAnswerState('correct');
+            }else{
+              setAnswerState('wrong');
+            }
+            setTimeout(() =>{
+                setAnswerState('')
+            }, 2000)
+       }, 1000)
+    }, [activeAnswerIndex]);
 
     const handleSkipAnswer = useCallback(() => handleAnswer(null), [handleAnswer]);
 
@@ -33,10 +41,7 @@ export default function Quiz() {
     if (finished) {
         return (<Results />)
     }
-    else {
-
-        const shuffledAnswers = [...questions[activeAnswerIndex].answers];
-        shuffledAnswers.sort(() => Math.random() - 0.5);
+    else { 
 
         return (
             <div>
@@ -45,9 +50,11 @@ export default function Quiz() {
                     return (
                         <Question key={question.id}
                             quest={question.text}
-                            answers={shuffledAnswers}
                             chooseAnswer={handleAnswer()}
                             onSkip = {handleSkipAnswer()}
+                            check={answerState}
+                            userAnswer={answer}
+                            answers={questions[activeAnswerIndex].answers}
                         />
 
 
