@@ -1,6 +1,5 @@
 import Header from "./Components/Header.jsx";
 import Quiz from "./Components/Quiz.jsx";
-import { useState } from "react";
 
 const TIMER = 5000;
 
