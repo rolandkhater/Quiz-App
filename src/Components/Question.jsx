@@ -4,12 +4,12 @@ import Answers from "./Answers.jsx";
 import questions from "../questions.js";
 
 export default function Question({ questIndex, chooseAnswer, onSkip }) {
-    const [answer, setAnswer ] = useState({
+    const [answer, setAnswer] = useState({
         selectedAsnwer: '',
         isCorrect: null,
     });
 
-    function hadnleSelectAnswer(answer){
+    function hadnleSelectAnswer(answer) {
         setAnswer({
             selectedAsnwer: answer,
             isCorrect: null,
@@ -21,17 +21,18 @@ export default function Question({ questIndex, chooseAnswer, onSkip }) {
             })
 
             setTimeout(() => {
-                chooseAnswer(answer)
+                chooseAnswer(answer);
             }, 2000);
         }, 1000);
-        
+
     }
 
     let answerState = '';
-   if(answer.selectedAsnwer){
-        answerState = 'answered';
-    }else if(answer.selectedAsnwer && answer.iscorrect !== null){
+
+    if (answer.selectedAsnwer && answer.iscorrect !== null) {
         answerState = answer.isCorrect ? 'correct' : 'wrong';
+    } else if (answer.selectedAsnwer) {
+        answerState = 'answered';
     };
 
     return (
@@ -39,11 +40,11 @@ export default function Question({ questIndex, chooseAnswer, onSkip }) {
             <div id="question">
                 <ProgressBar timeOut={10000} onTimeOut={onSkip} />
                 <h2>{questions[questIndex].text}</h2>
-                <Answers 
-                choose={hadnleSelectAnswer}
-                answerState={answerState} 
-                userAnswer={answer.selectedAsnwer} 
-                answers={questions[questIndex].answers} />
+                <Answers
+                    choose={hadnleSelectAnswer}
+                    answerState={answerState}
+                    userAnswer={answer.selectedAsnwer}
+                    answers={questions[questIndex].answers} />
 
             </div>
         </div>

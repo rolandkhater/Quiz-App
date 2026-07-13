@@ -13,10 +13,10 @@ export default function Answers({ choose, answerState, userAnswer, answers }) {
             {shuffledAnswers.current.map((answerOption) => {
                 const isSelected = userAnswer === answerOption;
                 let cssClasses = '';
-                
+
                 if (answerState === 'answered' && isSelected) {
                     cssClasses = 'selected';
-                };
+                }
                 if ((answerState === 'correct' || answerState === 'wrong') && isSelected) {
                     cssClasses = answerState;
                 }
