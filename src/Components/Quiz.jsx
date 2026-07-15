@@ -22,7 +22,11 @@ export default function Quiz() {
     const handleSkipAnswer = useCallback(() => handleAnswer(null), [handleAnswer]);
 
     if (finished) {
-        return (<Results />)
+        return (
+        <Results 
+        
+        userAnswers={userAnswers}/>
+    )
     }
 
 
